@@ -1,4 +1,6 @@
 import express from "express";
+import { CompressionTypes } from 'kafkajs'
+
 const routes = express.Router();
 
 routes.post("/certificates", async (req, res) => {
@@ -10,6 +12,7 @@ routes.post("/certificates", async (req, res) => {
 
   await req.producer.send({
     topic: "issue-certificate",
+    compression: CompressionTypes.GZIP,
     messages: [{ value: JSON.stringify(message) }]
   });
 
